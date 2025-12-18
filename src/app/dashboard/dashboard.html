@@ -18,60 +18,65 @@
       </span>
     </div>
 
-    <div class="last-update" *ngIf="lastRefresh$ | async as lastRefresh">
-      Last updated: {{ lastRefresh | date : 'HH:mm:ss' }}
-    </div>
+    @if (lastRefresh$ | async; as lastRefresh) {
+      <div class="last-update">
+        Last updated: {{ lastRefresh | date : 'HH:mm:ss' }}
+      </div>
+    }
   </div>
 
   <!-- Loading State -->
-  <div class="loading-overlay" *ngIf="isLoading$ | async">
-    <div class="spinner"></div>
-    <p>Refreshing data...</p>
-  </div>
+  @if (isLoading$ | async) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Refreshing data...</p>
+    </div>
+  }
 
   <!-- Error Message -->
-  <div class="error-container" *ngIf="error$ | async as error">
-    <p class="error-message">❌ {{ error }}</p>
-    <button class="btn-retry" (click)="refresh()">🔄 Retry</button>
-  </div>
+  @if (error$ | async; as error) {
+    <div class="error-container">
+      <p class="error-message">❌ {{ error }}</p>
+      <button class="btn-retry" (click)="refresh()">🔄 Retry</button>
+    </div>
+  }
 
   <!-- Stats Cards -->
-  <div class="stats-grid" *ngIf="stats$ | async as stats">
-    <div class="stat-card card-blue">
-      <div class="stat-icon">👥</div>
-      <div class="stat-content">
-        <div class="stat-label">Total Users</div>
-        <div class="stat-value">{{ stats.totalUsers }}</div>
+  @if (stats$ | async; as stats) {
+    <div class="stats-grid">
+      <div class="stat-card card-blue">
+        <div class="stat-icon">👥</div>
+        <div class="stat-content">
+          <div class="stat-label">Total Users</div>
+          <div class="stat-value">{{ stats.totalUsers }}</div>
+        </div>
       </div>
-    </div>
-
-    <div class="stat-card card-green">
-      <div class="stat-icon">✅</div>
-      <div class="stat-content">
-        <div class="stat-label">Active Users</div>
-        <div class="stat-value">{{ stats.activeUsers }}</div>
-        <div class="stat-change">
-          {{ (stats.activeUsers / stats.totalUsers) * 100 | number : '1.0-0' }}%
+      <div class="stat-card card-green">
+        <div class="stat-icon">✅</div>
+        <div class="stat-content">
+          <div class="stat-label">Active Users</div>
+          <div class="stat-value">{{ stats.activeUsers }}</div>
+          <div class="stat-change">
+            {{ (stats.activeUsers / stats.totalUsers) * 100 | number : '1.0-0' }}%
+          </div>
+        </div>
+      </div>
+      <div class="stat-card card-purple">
+        <div class="stat-icon">🛒</div>
+        <div class="stat-content">
+          <div class="stat-label">Total Sales</div>
+          <div class="stat-value">{{ stats.totalSales }}</div>
+        </div>
+      </div>
+      <div class="stat-card card-orange">
+        <div class="stat-icon">💰</div>
+        <div class="stat-content">
+          <div class="stat-label">Today's Revenue</div>
+          <div class="stat-value">${{ stats.todayRevenue }}</div>
         </div>
       </div>
     </div>
-
-    <div class="stat-card card-purple">
-      <div class="stat-icon">🛒</div>
-      <div class="stat-content">
-        <div class="stat-label">Total Sales</div>
-        <div class="stat-value">{{ stats.totalSales }}</div>
-      </div>
-    </div>
-
-    <div class="stat-card card-orange">
-      <div class="stat-icon">💰</div>
-      <div class="stat-content">
-        <div class="stat-label">Today's Revenue</div>
-        <div class="stat-value">${{ stats.todayRevenue }}</div>
-      </div>
-    </div>
-  </div>
+  }
 
   <!-- Info Box -->
   <div class="info-box">

@@ -1,12 +1,12 @@
 import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { interval, Subject } from 'rxjs';
 import { takeUntil, scan, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './timer.html',
   styleUrl: './timer.scss',
 })
