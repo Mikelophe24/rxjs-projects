@@ -1,0 +1,218 @@
+.timer-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+}
+
+// Main Timer Display
+.timer-display {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+
+  .time {
+    font-size: 4rem;
+    font-weight: bold;
+    color: white;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .status {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+
+    &.running {
+      color: #4ade80;
+      font-weight: bold;
+    }
+  }
+}
+
+// Control Buttons
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &.btn-start {
+      background: #4ade80;
+      color: white;
+    }
+
+    &.btn-pause {
+      background: #fb923c;
+      color: white;
+    }
+
+    &.btn-reset {
+      background: #ef4444;
+      color: white;
+    }
+
+    &.btn-save {
+      background: #3b82f6;
+      color: white;
+    }
+  }
+}
+
+// Saved Timers
+.saved-timers {
+  margin-top: 2rem;
+
+  h2 {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .timer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .timer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #f3f4f6;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #e5e7eb;
+      transform: translateX(5px);
+    }
+
+    .timer-time {
+      font-family: 'Courier New', monospace;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .timer-status {
+      font-size: 1.2rem;
+
+      &.was-running {
+        filter: brightness(1.2);
+      }
+    }
+
+    .btn-remove {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+// Info Box
+.info-box {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-left: 4px solid #667eea;
+  border-radius: 8px;
+
+  h3 {
+    color: #667eea;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    margin-top: 1.5rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.5rem;
+
+    li {
+      margin-bottom: 0.5rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+  }
+
+  code {
+    background: #e0e7ff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    color: #667eea;
+    font-weight: 600;
+  }
+
+  strong {
+    color: #334155;
+  }
+}
+
+// Responsive
+@media (max-width: 640px) {
+  .timer-container {
+    padding: 1rem;
+  }
+
+  .timer-display .time {
+    font-size: 3rem;
+  }
+
+  .controls {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}

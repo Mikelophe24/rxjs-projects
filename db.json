@@ -1,0 +1,14 @@
+{
+  "products": [
+    { "id": "1", "name": "Apple iPhone 15", "price": 999, "category": "Electronics" },
+    { "id": "2", "name": "Apple MacBook Pro", "price": 1999, "category": "Electronics" },
+    { "id": "3", "name": "Samsung Galaxy S23", "price": 899, "category": "Electronics" },
+    { "id": "4", "name": "Sony WH-1000XM5", "price": 349, "category": "Audio" },
+    { "id": "5", "name": "Dell XPS 13", "price": 1199, "category": "Electronics" },
+    { "id": "6", "name": "Logitech MX Master 3S", "price": 99, "category": "Accessories" },
+    { "id": "7", "name": "Keychron K2 Keyboard", "price": 89, "category": "Accessories" },
+    { "id": "8", "name": "Nintendo Switch OLED", "price": 349, "category": "Gaming" },
+    { "id": "9", "name": "Kindle Paperwhite", "price": 139, "category": "Electronics" },
+    { "id": "10", "name": "AirPods Pro", "price": 249, "category": "Audio" }
+  ]
+}

@@ -1,0 +1,123 @@
+<div class="dashboard-container">
+  <h1>📊 RxJS Dashboard (Realtime Polling)</h1>
+
+  <!-- Control Panel -->
+  <div class="control-panel">
+    <button class="btn btn-toggle" (click)="togglePause()" [class.paused]="isPaused$ | async">
+      {{ (isPaused$ | async) ? '▶️ Resume' : '⏸️ Pause' }}
+    </button>
+
+    <button class="btn btn-refresh" (click)="refresh()" [disabled]="isLoading$ | async">
+      🔄 Refresh Now
+    </button>
+
+    <div class="status-indicator">
+      <span class="dot" [class.active]="!(isPaused$ | async)"></span>
+      <span class="text">
+        {{ (isPaused$ | async) ? 'Polling Paused' : 'Auto-refresh every 5s' }}
+      </span>
+    </div>
+
+    <div class="last-update" *ngIf="lastRefresh$ | async as lastRefresh">
+      Last updated: {{ lastRefresh | date : 'HH:mm:ss' }}
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-overlay" *ngIf="isLoading$ | async">
+    <div class="spinner"></div>
+    <p>Refreshing data...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-container" *ngIf="error$ | async as error">
+    <p class="error-message">❌ {{ error }}</p>
+    <button class="btn-retry" (click)="refresh()">🔄 Retry</button>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid" *ngIf="stats$ | async as stats">
+    <div class="stat-card card-blue">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Users</div>
+        <div class="stat-value">{{ stats.totalUsers }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card card-green">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <div class="stat-label">Active Users</div>
+        <div class="stat-value">{{ stats.activeUsers }}</div>
+        <div class="stat-change">
+          {{ (stats.activeUsers / stats.totalUsers) * 100 | number : '1.0-0' }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card card-purple">
+      <div class="stat-icon">🛒</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Sales</div>
+        <div class="stat-value">{{ stats.totalSales }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card card-orange">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <div class="stat-label">Today's Revenue</div>
+        <div class="stat-value">${{ stats.todayRevenue }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Box -->
+  <div class="info-box">
+    <h3>🔧 RxJS Operators Used:</h3>
+    <ul>
+      <li><code>timer(0, 5000)</code> - Emit ngay lập tức, sau đó mỗi 5 giây</li>
+      <li><code>switchMap</code> - Switch sang API call mới, cancel cái cũ</li>
+      <li><code>retry(3)</code> - Tự động retry 3 lần nếu có lỗi</li>
+      <li><code>shareReplay(1)</code> - Cache kết quả và share cho nhiều subscribers</li>
+    </ul>
+
+    <h3>📚 Key Concepts:</h3>
+    <ul>
+      <li><strong>Polling:</strong> Tự động fetch data mỗi 5 giây</li>
+      <li><strong>Pause/Resume:</strong> Control polling với BehaviorSubject</li>
+      <li><strong>Multicasting:</strong> shareReplay tránh duplicate API calls</li>
+      <li><strong>Caching:</strong> shareReplay cache kết quả cuối cùng</li>
+      <li><strong>Error Handling:</strong> retry + catchError cho production-ready code</li>
+      <li><strong>Manual Refresh:</strong> Trigger refresh ngoài polling schedule</li>
+    </ul>
+
+    <h3>🔄 Polling Flow:</h3>
+    <div class="flow-diagram">
+      <div class="flow-step">timer(0, 5000)</div>
+      <div class="arrow">↓</div>
+      <div class="flow-step">Check if paused</div>
+      <div class="arrow">↓</div>
+      <div class="flow-step">switchMap → API call</div>
+      <div class="arrow">↓</div>
+      <div class="flow-step">retry(3) if error</div>
+      <div class="arrow">↓</div>
+      <div class="flow-step">shareReplay(1)</div>
+      <div class="arrow">↓</div>
+      <div class="flow-step">Update UI</div>
+    </div>
+
+    <h3>💡 Why shareReplay?</h3>
+    <div class="comparison">
+      <div class="comparison-item bad">
+        <strong>❌ Without shareReplay:</strong>
+        <p>3 subscribers = 3 API calls mỗi 5s = Waste!</p>
+      </div>
+      <div class="comparison-item good">
+        <strong>✅ With shareReplay:</strong>
+        <p>3 subscribers = 1 API call mỗi 5s = Efficient!</p>
+      </div>
+    </div>
+  </div>
+</div>

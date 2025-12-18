@@ -1,0 +1,44 @@
+<div class="search-container">
+  <div class="search-header">
+    <h1>Smart Search</h1>
+    <p>Find your favorite products with real-time feedback</p>
+  </div>
+
+  <div class="input-wrapper">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        #searchInput
+        type="text"
+        placeholder="Search products (e.g. iPhone, MacBook...)"
+        autocomplete="off"
+      />
+      @if (loading) {
+      <div class="loader"></div>
+      }
+    </div>
+  </div>
+
+  <div class="results-container">
+    @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+    } @if (!loading && results.length === 0 && searchInput.value) {
+    <div class="no-results">No products found matching "{{ searchInput.value }}"</div>
+    } @if (results.length > 0) {
+    <div class="results-grid">
+      @for (item of results; track item.id; let i = $index) {
+      <div class="result-card" [style.--delay]="i">
+        <div class="item-category">{{ item.category }}</div>
+        <div class="item-name">{{ item.name }}</div>
+        <div class="item-footer">
+          <span class="item-price">${{ item.price }}</span>
+          <button class="add-button">+</button>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>

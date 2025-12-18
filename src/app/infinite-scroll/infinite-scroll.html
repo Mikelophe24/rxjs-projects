@@ -1,0 +1,87 @@
+<div class="scroll-container">
+  <h1>📜 RxJS Infinite Scroll</h1>
+
+  <!-- Posts List -->
+  <div class="posts-list">
+    <div class="post-card" *ngFor="let post of posts$ | async; trackBy: trackByPostId">
+      <div class="post-header">
+        <span class="post-id">#{{ post.id }}</span>
+        <span class="user-badge">User {{ post.userId }}</span>
+      </div>
+      <h3 class="post-title">{{ post.title }}</h3>
+      <p class="post-body">{{ post.body }}</p>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div class="loading-container" *ngIf="isLoading$ | async">
+    <div class="spinner"></div>
+    <p>Loading more posts...</p>
+  </div>
+
+  <!-- End of List -->
+  <div
+    class="end-message"
+    *ngIf="!(hasMore$ | async) && !(isLoading$ | async) && (posts$ | async)?.length"
+  >
+    <p>🎉 You've reached the end!</p>
+    <p class="total-count">Total posts loaded: {{ (posts$ | async)?.length }}</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-container" *ngIf="error$ | async as error">
+    <p class="error-message">❌ {{ error }}</p>
+    <button class="btn-retry" (click)="retry()">🔄 Retry</button>
+  </div>
+
+  <!-- Load More Button (fallback) -->
+  <div class="load-more-container" *ngIf="(hasMore$ | async) && !(isLoading$ | async)">
+    <button class="btn-load-more" (click)="loadMore()">⬇️ Load More</button>
+    <p class="hint">Or scroll down to auto-load</p>
+  </div>
+
+  <!-- Info Box -->
+  <div class="info-box">
+    <h3>🔧 RxJS Operators Used:</h3>
+    <ul>
+      <li>
+        <code>exhaustMap</code> - Ignore requests mới nếu request cũ chưa xong (tránh duplicate)
+      </li>
+      <li><code>scan</code> - Accumulate posts từ các pages</li>
+      <li><code>tap</code> - Side effects (set loading state, logging)</li>
+      <li><code>catchError</code> - Handle API errors</li>
+    </ul>
+
+    <h3>📚 FlatMap Operators Comparison:</h3>
+    <div class="comparison-table">
+      <div class="comparison-row">
+        <strong>switchMap</strong>
+        <span>Cancel request cũ, chỉ giữ request mới nhất</span>
+        <span class="use-case">→ Search, Autocomplete</span>
+      </div>
+      <div class="comparison-row">
+        <strong>mergeMap</strong>
+        <span>Chạy tất cả requests song song</span>
+        <span class="use-case">→ Multiple independent API calls</span>
+      </div>
+      <div class="comparison-row">
+        <strong>concatMap</strong>
+        <span>Chạy tuần tự, đợi request trước xong mới chạy tiếp</span>
+        <span class="use-case">→ Sequential operations</span>
+      </div>
+      <div class="comparison-row highlight">
+        <strong>exhaustMap</strong>
+        <span>Ignore requests mới nếu đang xử lý</span>
+        <span class="use-case">→ Infinite Scroll, Button clicks</span>
+      </div>
+    </div>
+
+    <h3>💡 Key Concepts:</h3>
+    <ul>
+      <li><strong>Scroll Detection:</strong> HostListener để detect window scroll</li>
+      <li><strong>Threshold:</strong> Load trước 200px để UX mượt hơn</li>
+      <li><strong>State Management:</strong> BehaviorSubject quản lý pagination state</li>
+      <li><strong>Prevent Duplicates:</strong> exhaustMap + isLoading check</li>
+    </ul>
+  </div>
+</div>

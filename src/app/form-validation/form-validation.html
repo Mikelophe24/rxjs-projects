@@ -1,0 +1,98 @@
+<div class="form-container">
+  <h1>📝 RxJS Form Validation</h1>
+
+  <div class="form-wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="validation-form">
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          (blur)="onEmailBlur()"
+          placeholder="Enter your email"
+          [class.error]="emailError$ | async"
+        />
+        <div class="error-message" *ngIf="emailError$ | async as error">⚠️ {{ error }}</div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          (blur)="onPasswordBlur()"
+          placeholder="Enter your password"
+          [class.error]="passwordError$ | async"
+        />
+        <div class="error-message" *ngIf="passwordError$ | async as error">⚠️ {{ error }}</div>
+        <div class="hint">Minimum 6 characters</div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          (blur)="onConfirmPasswordBlur()"
+          placeholder="Confirm your password"
+          [class.error]="confirmPasswordError$ | async"
+        />
+        <div class="error-message" *ngIf="confirmPasswordError$ | async as error">
+          ⚠️ {{ error }}
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="!(isFormValid$ | async)"
+        [class.disabled]="!(isFormValid$ | async)"
+      >
+        {{ (isFormValid$ | async) ? '✅ Submit' : '🔒 Fix Errors to Submit' }}
+      </button>
+
+      <!-- Form Status -->
+      <div class="form-status">
+        <div class="status-item" [class.valid]="!(emailError$ | async)">
+          <span class="icon">{{ (emailError$ | async) ? '❌' : '✅' }}</span>
+          <span>Email Valid</span>
+        </div>
+        <div class="status-item" [class.valid]="!(passwordError$ | async)">
+          <span class="icon">{{ (passwordError$ | async) ? '❌' : '✅' }}</span>
+          <span>Password Valid</span>
+        </div>
+        <div class="status-item" [class.valid]="!(confirmPasswordError$ | async)">
+          <span class="icon">{{ (confirmPasswordError$ | async) ? '❌' : '✅' }}</span>
+          <span>Passwords Match</span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- RxJS Info -->
+  <div class="info-box">
+    <h3>🔧 RxJS Operators Used:</h3>
+    <ul>
+      <li><code>combineLatest</code> - Combine email, password, confirmPassword validations</li>
+      <li><code>map</code> - Transform validation state thành error messages</li>
+      <li><code>startWith</code> - Emit giá trị ban đầu ngay lập tức</li>
+      <li><code>debounceTime</code> - Đợi 300ms sau khi user ngừng gõ mới validate</li>
+    </ul>
+
+    <h3>📚 Reactive Form Concepts:</h3>
+    <ul>
+      <li><strong>FormControl:</strong> Quản lý giá trị và validation của từng field</li>
+      <li><strong>valueChanges:</strong> Observable emit mỗi khi giá trị thay đổi</li>
+      <li><strong>Validators:</strong> Built-in validators (required, email, minLength)</li>
+      <li><strong>Real-time Validation:</strong> Validate ngay khi user nhập (với debounce)</li>
+      <li><strong>Submit Button State:</strong> Enable/disable dựa trên form validity</li>
+    </ul>
+  </div>
+</div>
